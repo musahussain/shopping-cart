@@ -1,6 +1,19 @@
-// subtotal 
-// let caseTotalPrice = 0;
-// let phoneTotalPrice = 0;
+// updating case and phone input 
+function updateCaseInput(product, rate, isIncreasing) {
+    const caseInput = document.getElementById(product + '-input');
+    let caseNumber = parseInt(caseInput.value);
+    if(isIncreasing) {
+        caseNumber += 1;
+    } else if(caseNumber > 0) {
+        caseNumber -= 1;
+    }
+    caseInput.value = caseNumber;
+
+
+    let casePrice = document.getElementById(product + '-total');
+    const caseTotal = rate * parseInt(caseInput.value);
+    casePrice.innerText = caseTotal;
+}
 
 // case increasing
 const casePlus = document.getElementById('case-plus');
@@ -26,20 +39,27 @@ phoneMinus.addEventListener('click', function() {
     updateCaseInput('phone', 1219, false);
 });
 
-// updating case input 
-function updateCaseInput(product, rate, isIncreasing) {
-    const caseInput = document.getElementById(product + '-input');
-    let caseNumber = parseInt(caseInput.value);
-    if(isIncreasing) {
-        caseNumber += 1;
-    } else if(caseNumber > 0) {
-        caseNumber -= 1;
-    }
-    caseInput.value = caseNumber;
+// checkout 
+const checkout = document.getElementById('checkout');
+checkout.addEventListener('click', function() {
+    subTotal();
+});
 
+function subTotal(tax = 40) {
+    // get all text fields
+    const phonePriceTotal = document.getElementById('phone-total');
+    const casePriceTotal = document.getElementById('case-total');
+    const setSubTotal = document.getElementById('set-subtotal');
+    const setTax = document.getElementById('set-tax');
+    const mainTotal = document.getElementById('set-maintotal');
+    
+    // set subtotal
+    let finalSubTotal = parseFloat(casePriceTotal.innerText) + parseFloat(phonePriceTotal.innerText);
+    setSubTotal.innerText = finalSubTotal;
 
-    let casePrice = document.getElementById(product + '-total');
-    const caseTotal = rate * parseInt(caseInput.value);
-    casePrice.innerText = caseTotal;
+    // set tax
+    setTax.innerText = tax;
+    // final total 
+    mainTotal.innerText = finalSubTotal + tax;
 
 }
